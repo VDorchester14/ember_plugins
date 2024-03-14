@@ -1,5 +1,5 @@
 use crate::plugin::Plugin;
-use ember_plugins::plugin::PLUGIN_REGISTRY;
+use crate::plugin::PLUGIN_REGISTRY;
 
 #[macro_export]
 macro_rules! register_plugin {
