@@ -1,4 +1,4 @@
-// use crate::plugin::Plugin;
+use crate::plugin::Plugin;
 use std::sync::Mutex;
 
 #[macro_export]
@@ -8,12 +8,12 @@ macro_rules! register_plugin {
         use ember_plugins::plugin::Plugin;
 
         lazy_static::lazy_static! {
-            static ref PLUGIN_REGISTRY: Mutex<Vec<Box<dyn $ember_plugins::plugin::Plugin>>> = Mutex::new(Vec::new());
+            static ref PLUGIN_REGISTRY: Mutex<Vec<Box<dyn ember_plugins::Plugin>>> = Mutex::new(Vec::new());
         }
 
         // Register the plugin instance in a global registry.
         fn register_plugin_instance() {
-            let plugin_instance: Box<dyn $ember_plugins::plugin::Plugin> = Box::new($plugin::new());
+            let plugin_instance: Box<dyn ember_plugins::Plugin> = Box::new($plugin::new());
             PLUGIN_REGISTRY.lock().unwrap().push(plugin_instance);
         }
 
@@ -25,7 +25,7 @@ macro_rules! register_plugin {
 
         // Optionally, create a function to return all registered plugins.
         #[no_mangle]
-        pub extern "C" fn get_plugins() -> *mut Vec<Box<dyn $ember_plugins::plugin::Plugin>> {
+        pub extern "C" fn get_plugins() -> *mut Vec<Box<dyn ember_plugins::Plugin>> {
             let registry = PLUGIN_REGISTRY.lock().unwrap();
             Box::into_raw(Box::new(registry.clone()))
         }
