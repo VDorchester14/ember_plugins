@@ -2,7 +2,7 @@ use crate::plugin::Plugin;
 use std::sync::Mutex;
 
 lazy_static::lazy_static! {
-    static ref PLUGIN_REGISTRY: Mutex<Vec<Box<dyn ember_plugins::Plugin>>> = Mutex::new(Vec::new());
+    static ref PLUGIN_REGISTRY: Mutex<Vec<Box<dyn crate::Plugin>>> = Mutex::new(Vec::new());
 }
 
 #[macro_export]
