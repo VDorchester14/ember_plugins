@@ -1,10 +1,6 @@
 use crate::plugin::Plugin;
 use std::sync::Mutex;
 
-lazy_static::lazy_static! {
-    pub static ref PLUGIN_REGISTRY: Mutex<Vec<Box<dyn crate::Plugin>>> = Mutex::new(Vec::new());
-}
-
 #[macro_export]
 macro_rules! register_plugin {
     ($plugin:ident) => {
@@ -24,13 +20,7 @@ macro_rules! register_plugin {
             register_plugin_instance();
         }
 
-        // Function to safely access the plugins without exposing internal mutability.
-        // This function avoids returning a mutable reference or pointer to the registry.
-        #[no_mangle]
-        pub extern "C" fn access_plugins<F: FnOnce(&[Box<dyn ember_plugins::plugin::Plugin>])>(f: F) {
-            let registry = PLUGIN_REGISTRY.lock().unwrap();
-            f(&registry);
-        }
+
     };
 }
 
