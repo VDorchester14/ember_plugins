@@ -11,5 +11,5 @@ pub trait Plugin: Send + Sync{
 }
 
 lazy_static! {
-    static ref PLUGIN_REGISTRY: Mutex<Vec<Box<dyn Plugin>>> = Mutex::new(Vec::new());
+    pub static ref PLUGIN_REGISTRY: Mutex<Vec<Box<dyn Plugin>>> = Mutex::new(Vec::new());
 }
