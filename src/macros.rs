@@ -23,11 +23,12 @@ macro_rules! register_plugin {
             register_plugin_instance();
         }
 
-        // Optionally, create a function to return all registered plugins.
+        // Function to safely access the plugins without exposing internal mutability.
+        // This function avoids returning a mutable reference or pointer to the registry.
         #[no_mangle]
-        pub extern "C" fn get_plugins() -> *mut Vec<Box<dyn ember_plugins::Plugin>> {
+        pub extern "C" fn access_plugins<F: FnOnce(&[Box<dyn ember_plugins::plugin::Plugin>])>(f: F) {
             let registry = PLUGIN_REGISTRY.lock().unwrap();
-            Box::into_raw(Box::new(registry.clone()))
+            f(&registry);
         }
     };
 }
