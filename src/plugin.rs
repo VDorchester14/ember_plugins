@@ -1,7 +1,7 @@
 use lazy_static::lazy_static;
 use std::sync::Mutex;
 
-pub trait Plugin: Send + Sync + Clone{
+pub trait Plugin: Send + Sync + Clone + Sized
     fn init(&self);
     fn execute(&self);
     fn shutdown(&self);
