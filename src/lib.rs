@@ -1,2 +1,2 @@
-mod macros;
-mod plugin;
+pub mod macros;
+pub mod plugin;
