@@ -5,6 +5,8 @@ use std::sync::Mutex;
 macro_rules! register_plugin {
     ($plugin:ident) => {
         use std::sync::Mutex;
+        use ember_plugins::plugin::Plugin;
+
         lazy_static::lazy_static! {
             static ref PLUGIN_REGISTRY: Mutex<Vec<Box<dyn $crate::Plugin>>> = Mutex::new(Vec::new());
         }
