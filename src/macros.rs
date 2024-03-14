@@ -7,11 +7,11 @@ macro_rules! register_plugin {
         fn register_plugin_instance() {
             use std::sync::Mutex;
             lazy_static::lazy_static! {
-                static ref REGISTRY: Mutex<Vec<Box<dyn $crate::Plugin>>> = Mutex::new(Vec::new());
+                static ref PLUGIN_REGISTRY: Mutex<Vec<Box<dyn $crate::Plugin>>> = Mutex::new(Vec::new());
             }
 
             let plugin_instance: Box<dyn $crate::Plugin> = Box::new($plugin::new());
-            REGISTRY.lock().unwrap().push(plugin_instance);
+            PLUGIN_REGISTRY.lock().unwrap().push(plugin_instance);
         }
 
         // Expose a function to create an instance of the plugin and add it to the registry.
@@ -23,7 +23,7 @@ macro_rules! register_plugin {
         // Optionally, create a function to return all registered plugins.
         #[no_mangle]
         pub extern "C" fn get_plugins() -> *mut Vec<Box<dyn $crate::Plugin>> {
-            let registry = REGISTRY.lock().unwrap();
+            let registry = PLUGIN_REGISTRY.lock().unwrap();
             Box::into_raw(Box::new(registry.clone()))
         }
     };
