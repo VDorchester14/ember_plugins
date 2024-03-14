@@ -1,15 +1,15 @@
 use crate::plugin::Plugin;
 use std::sync::Mutex;
 
+lazy_static::lazy_static! {
+    static ref PLUGIN_REGISTRY: Mutex<Vec<Box<dyn ember_plugins::Plugin>>> = Mutex::new(Vec::new());
+}
+
 #[macro_export]
 macro_rules! register_plugin {
     ($plugin:ident) => {
         use std::sync::Mutex;
         use ember_plugins::plugin::Plugin;
-
-        lazy_static::lazy_static! {
-            static ref PLUGIN_REGISTRY: Mutex<Vec<Box<dyn ember_plugins::Plugin>>> = Mutex::new(Vec::new());
-        }
 
         // Register the plugin instance in a global registry.
         fn register_plugin_instance() {
