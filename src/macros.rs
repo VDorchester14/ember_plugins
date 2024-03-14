@@ -1,5 +1,4 @@
 use crate::plugin::Plugin;
-use crate::plugin::PLUGIN_REGISTRY;
 use std::sync::Mutex;
 
 #[macro_export]
