@@ -7,7 +7,9 @@ macro_rules! register_plugin {
         use std::sync::Mutex;
         use ember_plugins::plugin::Plugin;
         use ember_plugins::PLUGIN_REGISTRY;
-        
+        lazy_static::lazy_static! {
+            pub static ref PLUGIN_REGISTRY: Mutex<Vec<Box<dyn crate::Plugin>>> = Mutex::new(Vec::new());
+        }
         // Register the plugin instance in a global registry.
         fn register_plugin_instance() {
             let plugin_instance: Box<dyn ember_plugins::Plugin> = Box::new($plugin::new());
@@ -20,6 +22,13 @@ macro_rules! register_plugin {
             register_plugin_instance();
         }
 
+        // Function to safely access the plugins without exposing internal mutability.
+        // This function avoids returning a mutable reference or pointer to the registry.
+        #[no_mangle]
+        pub extern "C" fn access_plugins<F: FnOnce(&[Box<dyn ember_plugins::plugin::Plugin>])>(f: F) {
+            let registry = PLUGIN_REGISTRY.lock().unwrap();
+            f(&registry);
+        }
 
     };
 }
