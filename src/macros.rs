@@ -4,13 +4,14 @@ use crate::plugin::PLUGIN_REGISTRY;
 #[macro_export]
 macro_rules! register_plugin {
     ($plugin:ident) => {
+
+        lazy_static::lazy_static! {
+            static ref PLUGIN_REGISTRY: Mutex<Vec<Box<dyn $crate::Plugin>>> = Mutex::new(Vec::new());
+        }
+
         // Register the plugin instance in a global registry.
         fn register_plugin_instance() {
             use std::sync::Mutex;
-            lazy_static::lazy_static! {
-                static ref PLUGIN_REGISTRY: Mutex<Vec<Box<dyn $crate::Plugin>>> = Mutex::new(Vec::new());
-            }
-
             let plugin_instance: Box<dyn $crate::Plugin> = Box::new($plugin::new());
             PLUGIN_REGISTRY.lock().unwrap().push(plugin_instance);
         }
