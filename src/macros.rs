@@ -1,3 +1,5 @@
+use crate::plugin::Plugin;
+
 #[macro_export]
 macro_rules! register_plugin {
     ($plugin:ident) => {
