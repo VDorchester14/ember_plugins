@@ -6,7 +6,7 @@ lazy_static::lazy_static! {
     pub static ref PLUGIN_REGISTRY: Arc<Mutex<Vec<Box<dyn crate::Plugin>>>> = Arc::new(Mutex::new(Vec::new()));
 }
 
-pub fn registry() -> PLUGIN_REGISTRY {
+pub fn registry() -> Arc<Mutex<Vec<Box<dyn crate::Plugin>>>> {
     PLUGIN_REGISTRY.clone()
 }
 
