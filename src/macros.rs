@@ -12,6 +12,10 @@ lazy_static::lazy_static!{
 #[macro_export]
 macro_rules! register_plugin_entry {
     ($plugin:ident, $register_func:ident) => {
+        use ember_plugins::plugin::Plugin;
+        use ember_plugins::PLUGIN_REGISTRY;
+        use ember_plugins::REGISTRATION_FUNCTIONS;
+
         // Define the unique registration function
         fn $register_func() {
             let plugin_instance: Box<dyn ember_plugins::Plugin> = Box::new($plugin::new());
