@@ -13,5 +13,5 @@ pub fn registry() -> Arc<Mutex<Vec<Box<dyn crate::Plugin>>>> {
 pub fn register_plugin(plugin: Box<dyn Plugin>){
     let mut registry = PLUGIN_REGISTRY.lock().unwrap();
     registry.push(plugin);
-    println!("Registered a plugin. new len {}". registry.len());
+    println!("Registered a plugin. new len {}", registry.len());
 }
