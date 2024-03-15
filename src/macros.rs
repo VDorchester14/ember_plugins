@@ -6,7 +6,7 @@ lazy_static::lazy_static! {
 }
 
 lazy_static::lazy_static!{
-    pub static ref REGISTRATION_FUNCTIONS: Vec<fn()> = Vec::new();
+    pub static ref REGISTRATION_FUNCTIONS: Mutex<Vec<fn()>> = Mutex::new(Vec::new());
 }
 
 #[macro_export]
