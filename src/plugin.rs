@@ -9,7 +9,3 @@ pub trait Plugin: Send + Sync {
         String::from("Unnamed Plugin")
     }
 }
-
-lazy_static! {
-    pub static ref PLUGIN_REGISTRY: Mutex<Vec<Box<dyn Plugin>>> = Mutex::new(Vec::new());
-}
